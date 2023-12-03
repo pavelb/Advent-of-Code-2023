@@ -1,10 +1,6 @@
 import re
 from collections import defaultdict
 
-DIGIT = {'.': True}
-for n in range(10):
-  DIGIT[str(n)] = True
-
 mem = defaultdict(list)
 with open('day03-input.txt', 'r') as input:
   lines = list(line.rstrip() for line in input)
