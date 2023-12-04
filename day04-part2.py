@@ -13,11 +13,8 @@ with open('day04-input.txt', 'r') as input:
     num = sum(1 for h in have if h in winning)
     mem.append(num)
 
-@cache
-def total(i):
-  if i >= len(mem):
-    return 0
+count = [0] * len(mem)
+for i in reversed(range(len(mem))):
   num = mem[i]
-  return 1 + sum(total(i + 1 + j) for j in range(num))
-
-print(sum(total(i) for i in range(len(mem))))
+  count[i] = 1 + sum(count[i + 1: i + 1 + num])
+print(sum(count))
