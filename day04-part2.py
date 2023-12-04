@@ -13,8 +13,7 @@ with open('day04-input.txt', 'r') as input:
     num = sum(1 for h in have if h in winning)
     mem.append(num)
 
-count = [0] * len(mem)
-for i in reversed(range(len(mem))):
-  num = mem[i]
+count = [0]
+for i, num in reversed(list(enumerate(mem))):
   count[i] = 1 + sum(count[i + 1: i + 1 + num])
 print(sum(count))
