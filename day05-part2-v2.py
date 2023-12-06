@@ -1,4 +1,4 @@
-from lib import flattenRanges
+from lib import flattenRanges, mergeRanges
 
 MAP = 0
 SOURCE = 1
@@ -31,6 +31,6 @@ with open('day05-input.txt', 'r') as input:
           end += delta
       if output:
         newSources.append((start, end, [(SOURCE, 0)]))
-    sources = sorted(newSources)
+    sources = mergeRanges(newSources, lambda m1, m2: m1[2] if m1[2] == m2[2] else None)
   
   print(sources[0][0])

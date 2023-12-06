@@ -54,3 +54,22 @@ def flattenRanges(ranges):
   for range in ranges:
     head = AddRange(head, range)
   yield from head.values()
+
+# takes list of possibly-overlapping (start, end, list-of-metadata)
+#   and a function that returns list-of-metadata for merge-eligible ranges
+# returns sorted list of merged non-overlapping (start, end, list-of-metadata)
+#   where the merge function returned some metadata.
+def mergeRanges(ranges, meta=None):
+  ranges = sorted(ranges)
+  i = 0
+  while i < len(ranges) - 1:
+    start1, end1, metadata1 = ranges[i]
+    start2, end2, metadata2 = ranges[i + 1]
+    if end1 + 1 == start2:
+      m = meta(ranges[i], ranges[i + 1])
+      if m:
+        ranges.pop(i)
+        ranges[i] = (start1, end2, m)
+        continue
+    i += 1
+  return ranges
