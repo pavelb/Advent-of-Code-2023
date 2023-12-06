@@ -12,22 +12,16 @@ with open('day05-input.txt', 'r') as input:
     elif ":" in line:
       maps.append([])
     else:
-      destFirst, sourceFirst, rangeLength = map(int, line.split(" "))
-      maps[-1].append((
-        sourceFirst,
-        sourceFirst + rangeLength - 1,
-        [(MAP, destFirst - sourceFirst)]
-      ))
+      dest, start, n = map(int, line.split(" "))
+      maps[-1].append((start, start + n - 1, [(MAP, dest - start)]))
 
   _, seeds = lines[0].split(": ")
   seeds = list(map(int, seeds.split(" ")))
-  sources = [(seedFirst, seedFirst + seedLength - 1, [(SOURCE, 0)]) for seedFirst, seedLength in zip(seeds[::2], seeds[1::2])]
+  sources = [(start, start + n - 1, [(SOURCE, 0)]) for start, n in zip(seeds[::2], seeds[1::2])]
 
-  smallest = float('inf')
   for map in maps:
-    ranges = flattenRanges(map + sources)
-    sources = []
-    for start, end, metadata in ranges:
+    newSources = []
+    for start, end, metadata in flattenRanges(map + sources):
       output = False
       for type, delta in metadata:
         if type == SOURCE:
@@ -36,6 +30,7 @@ with open('day05-input.txt', 'r') as input:
           start += delta
           end += delta
       if output:
-        sources.append((start, end, [(SOURCE, 0)]))
-    sources = sorted(sources)
+        newSources.append((start, end, [(SOURCE, 0)]))
+    sources = sorted(newSources)
+  
   print(sources[0][0])
