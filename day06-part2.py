@@ -1,5 +1,3 @@
-import re
-
 with open('day06-input.txt', 'r') as input:
   lines = list(input)
   t = int(lines[0].split(" ", 1)[1].replace(' ', ''))
