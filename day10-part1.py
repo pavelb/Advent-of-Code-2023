@@ -11,38 +11,28 @@ MAP = {
   'J': {SOUTH: WEST, EAST: NORTH},
   '7': {NORTH: WEST, EAST: SOUTH},
   'F': {NORTH: EAST, WEST: SOUTH},
-  '.': {},
   'S': {NORTH: NORTH, SOUTH: SOUTH, EAST: EAST, WEST: WEST},
 }
 
 with open('day10-input.txt', 'r') as input:
-  mem = [list(line.rstrip()) for line in input]
-  start = None
-  for y, row in enumerate(mem):
-    for x, c in enumerate(row):
-      if c == 'S':
-        start = (x, y)
-  dist = defaultdict(lambda: float('inf'))
-  dist[start] = 0
+  mem = {(x, y): c for y, row in enumerate(input) for x, c in enumerate(row.rstrip())}
 
   def walk(start, dir):
-    x, y = start
+    path = []
+    pos = start
     while True:
-      c = mem[y][x]
-      if dir not in MAP[c]:
-        break
-      dx, dy = MAP[c][dir]
-      nx = x + dx
-      ny = y + dy
-      if (nx, ny) != start and 0 <= ny < len(mem) and 0 <= nx < len(mem[ny]) and mem[ny][nx] != '.':
-        dist[nx, ny] = min(dist[nx, ny], dist[x, y] + 1)
-        x, y = nx, ny
-        dir = (dx, dy)
-      else:
-        break
+      try:
+        dir = MAP[mem[pos]][dir]
+      except:
+        return []
+      path.append(pos)
+      pos = (pos[0] + dir[0], pos[1] + dir[1])
+      if pos == start:
+        return path
   
-  walk(start, NORTH)
-  walk(start, SOUTH)
-  walk(start, EAST)
-  walk(start, WEST)
+  start = next(pos for pos, c in mem.items() if c == 'S')
+  dist = defaultdict(lambda: float('inf'))
+  for dir in [NORTH, EAST, SOUTH, WEST]:
+    for d, (x, y) in enumerate(walk(start, dir)):
+      dist[x, y] = min(dist[x, y], d)
   print(max(dist.values()))
