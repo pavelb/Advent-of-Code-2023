@@ -7,10 +7,7 @@ with open('day11-input.txt', 'r') as input:
   for i, (x1, y1) in enumerate(galaxies):
     for j in range(i + 1, len(galaxies)):
       x2, y2 = galaxies[j]
-      dist = 0
-      for x in range(min(x1, x2), max(x1, x2)):
-        dist += colDelta[x]
-      for y in range(min(y1, y2), max(y1, y2)):
-        dist += rowDelta[y]
+      dist = sum(colDelta[x] for x in range(min(x1, x2), max(x1, x2)))
+      dist += sum(rowDelta[y] for y in range(min(y1, y2), max(y1, y2)))
       total += dist
   print(total)
