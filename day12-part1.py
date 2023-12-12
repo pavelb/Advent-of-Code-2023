@@ -18,6 +18,6 @@ with open('day12-input.txt', 'r') as input:
   for line in input:
     line = line.rstrip()
     condition, springs = line.split(" ")
-    springs = list(map(int, springs.split(",")))
+    springs = tuple(map(int, springs.split(",")))
     total += satisfy(condition, springs)
   print(total)

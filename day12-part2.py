@@ -23,6 +23,6 @@ with open('day12-input.txt', 'r') as input:
     condition, springs = line.split(" ")
     condition = '?'.join([condition] * 5)
     springs = ','.join([springs] * 5)
-    springs = list(map(int, springs.split(",")))
-    total += satisfy(condition, tuple(springs))
+    springs = tuple(map(int, springs.split(",")))
+    total += satisfy(condition, springs)
   print(total)
