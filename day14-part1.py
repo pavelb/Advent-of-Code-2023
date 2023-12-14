@@ -1,5 +1,3 @@
-from itertools import count
-
 def slideUp(mem, x, y):
   while mem.get((x, y - 1)) == '.':
     mem[(x, y)], mem[(x, y - 1)] = mem[(x, y - 1)], mem[(x, y)]
