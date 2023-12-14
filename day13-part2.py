@@ -1,10 +1,9 @@
 def countRows(puzzle):
   rows = 0
-  for i in range(1, len(puzzle)):
-    n = min(i, len(puzzle) - i)
-    top = "".join(puzzle[i - n:i])
-    bottom = "".join(reversed(puzzle[i:i + n]))
-    if sum(a != b for a, b in zip(top, bottom)) == 1:
+  for i in range(len(puzzle)):
+    top = puzzle[:i]
+    bottom = puzzle[i:]
+    if sum(a != b for r1, r2 in zip(reversed(top), bottom) for a, b in zip(r1, r2)) == 1:
       rows += i
   return rows
 
