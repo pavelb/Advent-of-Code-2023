@@ -12,24 +12,20 @@ def getKey(mem):
   return tuple(sorted(mem.items()))
 
 def loopSize(meta, key):
-  m = 0
   k = key
-  while True:
-    m += 1
-    v = meta[k]
-    k = getKey(v)
+  for n in count(1):
+    k = getKey(meta[k])
     if k == key:
-      break
-  return m
+      return n
 
 with open('day14-input.txt', 'r') as input:
   mem = {(x, y): c for y, row in enumerate(input) for x, c in enumerate(row.rstrip())}
 
   meta = dict()
-  for i in range(1000000000):
+  for i in range(1_000_000_000):
     key = getKey(mem)
     if key in meta:
-      for _ in range((1000000000 - i) % loopSize(meta, key)):
+      for _ in range((1_000_000_000 - i) % loopSize(meta, key)):
         slide(mem, 0, -1)
         slide(mem, -1, 0)
         slide(mem, 0, 1)
