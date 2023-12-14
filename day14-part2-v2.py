@@ -15,36 +15,23 @@ def slide(board, dx, dy):
         y += dy
         board[y][x] = 'O'
 
-def getKey(board):
-  return tuple(map(tuple, board))
-
-def loopSize(mem, key):
-  k = key
-  for n in count(1):
-    k = getKey(mem[k])
-    if k == key:
-      return n
-
 with open('day14-input.txt', 'r') as input:
   board = [list(line.rstrip()) for line in input]
-  
-  mem = dict()
-  looped = False
-  n = 1_000_000_000
-  while n > 0:
-    if not looped:
-      key = getKey(board)
-      if key in mem:
-        looped = True
-        n %= loopSize(mem, key)
-        continue
-    n -= 1
+  cyclesToBoard = dict()
+  boardToCycles = dict()
+  for i in range(1_000_000_000):
+    key = tuple(map(tuple, board))
+    if key in boardToCycles:
+      loopStart = boardToCycles[key]
+      loopLen = i - loopStart
+      board = cyclesToBoard[loopStart + (1_000_000_000 - loopStart) % loopLen]
+      break
+    cyclesToBoard[i] = key
+    boardToCycles[key] = i
     slide(board, 0, -1)
     slide(board, -1, 0)
     slide(board, 0, 1)
     slide(board, 1, 0)
-    if not looped:
-      mem[key] = list(map(list, board))
 
   total = 0
   for y, row in enumerate(board):
