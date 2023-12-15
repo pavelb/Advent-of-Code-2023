@@ -13,8 +13,7 @@ with open('day15-input.txt', 'r') as input:
   mem = defaultdict(dict)
   for s in strings:
     add = '=' in s
-    operation = s.split('=' if add else '-')
-    label, focal = operation
+    label, focal = s.split('=' if add else '-')
     hashmap = mem[hash(label)]
     if add:
       hashmap[label] = focal
