@@ -1,4 +1,3 @@
-import re
 from collections import defaultdict
 
 def hash(str):
@@ -11,30 +10,19 @@ def hash(str):
 
 with open('day15-input.txt', 'r') as input:
   strings = "".join(input).replace("\n", "").split(",")
-  mem = defaultdict(list)
+  mem = defaultdict(dict)
   for s in strings:
     add = '=' in s
     operation = s.split('=' if add else '-')
     label, focal = operation
     hashmap = mem[hash(label)]
-
     if add:
-      added = False
-      for i, (l, f) in enumerate(hashmap):
-        if l == label:
-          hashmap[i] = (label, focal)
-          added = True
-          break
-      if not added:
-        hashmap.append((label, focal))
+      hashmap[label] = focal
     else:
-      for i, entry in enumerate(hashmap):
-        if entry[0] == label:
-          hashmap.remove(entry)
+      hashmap.pop(label, None)
 
   total = 0
   for box, hashmap in mem.items():
-    for i, (label, focal) in enumerate(hashmap):
+    for i, (label, focal) in enumerate(hashmap.items()):
       total += (1 + box) * (1 + i) * int(focal)
-
   print(total)
