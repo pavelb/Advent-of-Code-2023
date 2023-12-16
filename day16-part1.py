@@ -38,8 +38,8 @@ with open('day16-input.txt', 'r') as input:
         beams.append(move(pos, UP))
         beams.append(move(pos, DOWN))
     elif c == '\\':
-      beams.append(move(pos, LEFT if dir == UP else RIGHT if dir == DOWN else UP if dir == LEFT else DOWN))
+      beams.append(move(pos, {UP: LEFT, LEFT: UP, DOWN: RIGHT, RIGHT: DOWN}[dir]))
     elif c == '/':
-      beams.append(move(pos, RIGHT if dir == UP else LEFT if dir == DOWN else DOWN if dir == LEFT else UP))
+      beams.append(move(pos, {UP: RIGHT, RIGHT: UP, DOWN: LEFT, LEFT: DOWN}[dir]))
 
   print(len(set(pos for pos, _ in mem)))
