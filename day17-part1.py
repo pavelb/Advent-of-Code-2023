@@ -69,7 +69,7 @@ with open('day17-input.txt', 'r') as input:
     if heatloss < heatlossMem[nw]:
       heatlossMem[nw] = heatloss
       prev[nw] = w
-    work.update(nw, heatlossMem[nw])
+      work.update(nw, heatlossMem[nw])
 
   while True:
     w = work.pop()
