@@ -68,7 +68,7 @@ def mergeRanges(ranges, meta=None):
     start1, end1, metadata1 = ranges[i]
     start2, end2, metadata2 = ranges[i + 1]
     if end1 + 1 == start2:
-      m = meta(ranges[i], ranges[i + 1])
+      m = meta(ranges[i], ranges[i + 1]) if meta else True
       if m:
         ranges.pop(i)
         ranges[i] = (start1, end2, m)
