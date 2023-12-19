@@ -1,3 +1,5 @@
+import heapq
+
 class Node(object):
   value = None
   left = None
@@ -73,3 +75,27 @@ def mergeRanges(ranges, meta=None):
         continue
     i += 1
   return ranges
+
+class PriorityQueue:
+  def __init__(self):
+    self.heap = []
+    self.entry_finder = {}
+
+  def update(self, item, priority):
+    self.remove(item)
+    entry = [priority, item, False]
+    self.entry_finder[item] = entry
+    heapq.heappush(self.heap, entry)
+
+  def remove(self, item):
+    if item in self.entry_finder:
+      entry = self.entry_finder.pop(item)
+      entry[-1] = True
+
+  def pop(self):
+    while self.heap:
+      entry = heapq.heappop(self.heap)
+      priority, item, deleted = entry
+      if not deleted:
+        return item
+    return None
